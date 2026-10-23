@@ -146,7 +146,7 @@ export default function App() {
     isAdminViewRef.current = isAdminView;
   }, [isAdminView]);
 
-  // Dedicated WebView Section state (https://sayantikapatra.blogspot.com)
+  // Dedicated WebView Section state
   const [isWebView, setIsWebView] = useState(false);
   const isWebViewRef = useRef(false);
 
@@ -687,7 +687,7 @@ export default function App() {
     }, `Opening ${label}...`);
   };
 
-  // Open dedicated WebView Section (https://sayantikapatra.blogspot.com)
+  // Open dedicated WebView Section
   const handleOpenWebViewSection = () => {
     setShowDrawerMenu(false);
     if (typeof (window as any).openSayantikaSection === 'function') {
@@ -941,8 +941,8 @@ export default function App() {
       ) : isWebView ? (
         <WebViewSection
           onClose={() => setIsWebView(false)}
-          url="https://sayantikapatra.blogspot.com"
-          title="Sayantika Patra"
+          url="https://www.profitableratecpmnetwork.com/xvstux43?key=0c857c73c9952f0b87cdbb9b39755d98"
+          title="Web View"
         />
       ) : isSubscriptionView ? (
         <SubscriptionSection

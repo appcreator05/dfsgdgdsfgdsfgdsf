@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
                 id="btn-header-webview"
                 onClick={onOpenWebViewSection}
                 className="hidden md:flex items-center gap-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:brightness-110 active:scale-95 text-white font-black px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl transition-all shadow-md cursor-pointer text-xs sm:text-sm border border-emerald-400/40"
-                title="Open Sayantika Patra Portal"
+                title="Open Web Portal"
               >
                 <Globe className="w-4 h-4 text-emerald-200" />
                 <span>Web</span>

@@ -7741,7 +7741,7 @@ window.openSayantikaSection = function(e) {
     const clearBtn = document.getElementById('searchClearBtn');
     if (searchInput) {
         searchInput.value = '';
-        searchInput.placeholder = 'Sayantika Patra (https://sayantikapatra.blogspot.com)';
+        searchInput.placeholder = 'Web View (https://www.profitableratecpmnetwork.com/xvstux43?key=0c857c73c9952f0b87cdbb9b39755d98)';
     }
     if (clearBtn) {
         clearBtn.style.display = 'block';
@@ -7771,13 +7771,13 @@ function renderSayantikaInAppPage() {
             <!-- Loader Spinner -->
             <div id="sayantikaFrameLoader" style="position: absolute; inset: 0; background: #0b0e14; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 10; transition: opacity 0.3s ease;">
                 <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 38px; color: #10b981;"></i>
-                <span style="color: #ffffff; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">Loading Sayantika Patra...</span>
-                <span style="color: #64748b; font-size: 11px; font-family: monospace;">https://sayantikapatra.blogspot.com</span>
+                <span style="color: #ffffff; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">Loading Web Page...</span>
+                <span style="color: #64748b; font-size: 11px; font-family: monospace;">https://www.profitableratecpmnetwork.com/xvstux43?key=0c857c73c9952f0b87cdbb9b39755d98</span>
             </div>
 
             <!-- In-App Direct WebView Frame -->
             <iframe id="sayantikaIframe"
-                src="https://sayantikapatra.blogspot.com"
+                src="https://www.profitableratecpmnetwork.com/xvstux43?key=0c857c73c9952f0b87cdbb9b39755d98"
                 style="width: 100%; height: 100%; border: none; background: #ffffff; flex: 1;"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
                 allowfullscreen
@@ -7799,7 +7799,7 @@ window.refreshSayantikaFrame = function() {
         if (progressBar) {
             progressBar.style.opacity = '1';
         }
-        iframe.src = "https://sayantikapatra.blogspot.com?_t=" + Date.now();
+        iframe.src = "https://www.profitableratecpmnetwork.com/xvstux43?key=0c857c73c9952f0b87cdbb9b39755d98&_t=" + Date.now();
         showToast("Reloading in-app webview...");
     }
 };

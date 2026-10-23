@@ -242,8 +242,8 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
                     <Globe className="w-4 h-4 text-emerald-300" />
                   </div>
                   <div className="text-left">
-                    <div className="text-xs font-black leading-tight">Sayantika Patra</div>
-                    <div className="text-[10px] text-emerald-100 font-medium">Web View Portal &amp; Blog</div>
+                    <div className="text-xs font-black leading-tight">Web Portal</div>
+                    <div className="text-[10px] text-emerald-100 font-medium">In-App Web View</div>
                   </div>
                 </div>
                 <span className="bg-black/30 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20">

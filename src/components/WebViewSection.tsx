@@ -10,8 +10,8 @@ interface WebViewSectionProps {
 
 export const WebViewSection: React.FC<WebViewSectionProps> = ({
   onClose,
-  url = 'https://sayantikapatra.blogspot.com',
-  title = 'Sayantika Patra'
+  url = 'https://www.profitableratecpmnetwork.com/xvstux43?key=0c857c73c9952f0b87cdbb9b39755d98',
+  title = 'Web View'
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [key, setKey] = useState(0);
