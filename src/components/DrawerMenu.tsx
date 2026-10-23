@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Film, Sparkles, Compass, Clock, Award, Shield, Check, Maximize, Minimize, Smartphone, Music, RefreshCw, Crown, Share2 } from 'lucide-react';
+import { X, Film, Sparkles, Compass, Clock, Award, Shield, Check, Maximize, Minimize, Smartphone, Music, RefreshCw, Crown, Share2, Globe } from 'lucide-react';
 import { VDOSKyLogo } from './VDOSKyLogo';
 import { toggleSystemNavigation } from '../utils/systemBars';
 import { CURRENT_APP_VERSION } from '../services/updateService';
@@ -11,6 +11,7 @@ interface DrawerMenuProps {
   onSelectCategory: (category: string) => void;
   onOpenAdConfig?: () => void;
   onOpenMusicSection: () => void;
+  onOpenWebViewSection?: () => void;
   onOpenSubscriptionSection?: () => void;
   onOpenSubscriptionAlert?: () => void;
   isSubscribed?: boolean;
@@ -29,6 +30,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
   selectedCategory,
   onSelectCategory,
   onOpenMusicSection,
+  onOpenWebViewSection,
   onOpenSubscriptionSection,
   onOpenSubscriptionAlert,
   isSubscribed,
@@ -99,7 +101,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
               <VDOSKyLogo size={36} />
               <div>
                 <h3 className="font-black text-white text-base leading-none">
-                  <span className="text-red-500">Movie</span> <span className="text-cyan-400">App</span>
+                  <span className="text-red-500">Movie</span><span className="text-cyan-400">App</span><span className="text-red-400 text-xs ml-0.5">.in</span>
                 </h3>
                 <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">
                   Movie Portal &amp; Live Streaming
@@ -219,6 +221,37 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
               </span>
             </button>
           </div>
+
+          {/* Dedicated WebView Section Navigation Button (Sayantika Patra Blog) */}
+          {onOpenWebViewSection && (
+            <div className="mx-3 mb-2">
+              <button
+                id="btn-drawer-open-webview"
+                onClick={() => {
+                  onClose();
+                  if (typeof (window as any).openSayantikaSection === 'function') {
+                    (window as any).openSayantikaSection();
+                  } else if (onOpenWebViewSection) {
+                    onOpenWebViewSection();
+                  }
+                }}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 text-white font-black text-xs shadow-lg shadow-emerald-950/50 hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer border border-emerald-400/50"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-black/35 flex items-center justify-center">
+                    <Globe className="w-4 h-4 text-emerald-300" />
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs font-black leading-tight">Sayantika Patra</div>
+                    <div className="text-[10px] text-emerald-100 font-medium">Web View Portal &amp; Blog</div>
+                  </div>
+                </div>
+                <span className="bg-black/30 text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/20">
+                  Open 🌐
+                </span>
+              </button>
+            </div>
+          )}
 
           {/* Fullscreen Mobile Splash Screen Preview Button */}
           {onOpenSplashScreen && (
@@ -598,7 +631,7 @@ export const DrawerMenu: React.FC<DrawerMenuProps> = ({
         {/* Footer */}
         <div className="p-4 border-t border-gray-800/80 bg-[#090d14] text-center">
           <p className="text-[11px] text-gray-400">
-            VDOSKy Mobile &amp; TV Stream Engine
+            MovieApp.in Mobile &amp; TV Stream Engine
           </p>
           <p className="text-[10px] text-gray-400 mt-1">
             Start.io Monetization · Native · 300x250 Banner · Rewarded Video

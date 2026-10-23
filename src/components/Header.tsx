@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Mic, X, Music, Crown } from 'lucide-react';
+import { Menu, Mic, X, Music, Crown, Globe } from 'lucide-react';
 import { StartIoConfig, AdStats } from '../types';
 import { VoiceSearchModal } from './VoiceSearchModal';
 import { VDOSKyLogo } from './VDOSKyLogo';
@@ -7,6 +7,7 @@ import { VDOSKyLogo } from './VDOSKyLogo';
 interface HeaderProps {
   onOpenMenu: () => void;
   onOpenMusicSection?: () => void;
+  onOpenWebViewSection?: () => void;
   onOpenSubscriptionSection?: () => void;
   isSubscribed?: boolean;
   onOpenAdConfig?: () => void;
@@ -20,6 +21,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   onOpenMenu,
   onOpenMusicSection,
+  onOpenWebViewSection,
   onOpenSubscriptionSection,
   isSubscribed,
   searchQuery,
@@ -82,6 +84,18 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <Music className="w-4 h-4" />
                 <span className="hidden sm:inline">Music</span>
+              </button>
+            )}
+
+            {onOpenWebViewSection && (
+              <button
+                id="btn-header-webview"
+                onClick={onOpenWebViewSection}
+                className="hidden md:flex items-center gap-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:brightness-110 active:scale-95 text-white font-black px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl transition-all shadow-md cursor-pointer text-xs sm:text-sm border border-emerald-400/40"
+                title="Open Sayantika Patra Portal"
+              >
+                <Globe className="w-4 h-4 text-emerald-200" />
+                <span>Web</span>
               </button>
             )}
           </div>

@@ -496,8 +496,8 @@ export const MoviePlayPage: React.FC<MoviePlayPageProps> = ({
   const handleShare = async () => {
     const shareUrl = 'https://vdoskay.blogspot.com';
     const shareData = {
-      title: `${movie.title} - Watch on VDOSKy`,
-      text: `Watch ${movie.title} online in HD on VDOSKy! Explore 3000+ movies & live streams.`,
+      title: `${movie.title} - Watch on MovieApp.in`,
+      text: `Watch ${movie.title} online in HD on MovieApp.in! Explore 3000+ movies & live streams.`,
       url: shareUrl
     };
 
@@ -740,7 +740,7 @@ export const MoviePlayPage: React.FC<MoviePlayPageProps> = ({
           <div className="flex items-center gap-2 truncate max-w-[220px] sm:max-w-md">
             <VDOSKyLogo size={24} />
             <div className="text-right truncate">
-              <span className="text-[10px] text-gray-400 block leading-tight">Now Playing on VDOSKy</span>
+              <span className="text-[10px] text-gray-400 block leading-tight">Now Playing on MovieApp.in</span>
               <h2 className="text-xs sm:text-sm font-bold text-white truncate leading-tight">{movie.title}</h2>
             </div>
           </div>

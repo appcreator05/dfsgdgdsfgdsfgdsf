@@ -488,6 +488,7 @@ let isInMp3TrimmerView = false;
 let isInQrCodeView = false;
 let isInCoolTextView = false;
 let isInTranslatorView = false;
+let isInSayantikaView = false;
 let currentCompressorFile = null;
 let currentCompressorImg = null;
 let originalImages = [];
@@ -5258,6 +5259,21 @@ window.showAllCategory = async function(categoryName) {
 window.handleMenuOrBack = function() {
     if (isPlayerView) {
         exitPlayerView();
+    } else if (isInSayantikaView) {
+        isInSayantikaView = false;
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('searchClearBtn');
+        if (searchInput) {
+            searchInput.value = '';
+            searchInput.placeholder = 'Enter Movie Name or Cast...';
+        }
+        if (clearBtn) {
+            clearBtn.style.display = 'none';
+            clearBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+            clearBtn.onclick = function() { window.clearTopSearch(); };
+        }
+        updateHeaderButton();
+        renderContent(allMovies);
     } else if (isInAdminView) {
         isInAdminView = false;
         const searchInput = document.getElementById('searchInput');
@@ -5416,6 +5432,7 @@ window.goHome = function() {
     isInQrCodeView = false;
     isInCoolTextView = false;
     isInTranslatorView = false;
+    isInSayantikaView = false;
     if (typeof window.stopTranslatorVoiceInput === 'function') {
         window.stopTranslatorVoiceInput();
     }
@@ -5675,7 +5692,7 @@ function updateHeaderButton() {
 
     if (!menuToggle || !menuIcon || !menuBtnText) return;
 
-    if (isPlayerView || isInCategoryView || isInCloudStreamView || isInSubscriptionView || isInCommentView || isInGameView || isInAdminView || isInGpsCameraView || isInPdfView || isInExtraToolsView || isInStore35View || isInGifMakerView || isInVoiceRecorderView || isInSketchView || isInCompressorView || isInMp3TrimmerView || isInQrCodeView || isInCoolTextView || isInTranslatorView) {
+    if (isPlayerView || isInCategoryView || isInCloudStreamView || isInSubscriptionView || isInCommentView || isInGameView || isInAdminView || isInGpsCameraView || isInPdfView || isInExtraToolsView || isInStore35View || isInGifMakerView || isInVoiceRecorderView || isInSketchView || isInCompressorView || isInMp3TrimmerView || isInQrCodeView || isInCoolTextView || isInTranslatorView || isInSayantikaView) {
         menuIcon.className = "fa-solid fa-arrow-left";
         menuBtnText.innerText = "Back";
         menuToggle.style.background = "#ff4757";
@@ -7682,6 +7699,108 @@ window.openExternalCommentLink = function() {
         window.openInChrome(url);
     } else {
         window.open(url, '_blank');
+    }
+};
+
+// ==========================================
+// SAYANTIKA PATRA IN-APP WEBVIEW SECTION
+// ==========================================
+window.openSayantikaSection = function(e) {
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
+    if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+
+    if (typeof window.stopGpsCamera === 'function') window.stopGpsCamera();
+    isInGpsCameraView = false;
+    isInCommentView = false;
+    isInSubscriptionView = false;
+    isInCloudStreamView = false;
+    isInGameView = false;
+    isInAdminView = false;
+    isInPdfView = false;
+    isInExtraToolsView = false;
+    isInStore35View = false;
+    isInGifMakerView = false;
+    isInVoiceRecorderView = false;
+    isInSketchView = false;
+    isInCompressorView = false;
+    isInMp3TrimmerView = false;
+    isInQrCodeView = false;
+    isInCoolTextView = false;
+    isInTranslatorView = false;
+    isPlayerView = false;
+    isInCategoryView = false;
+    isInSayantikaView = true;
+    updateHeaderButton();
+
+    const dropdown = document.getElementById("dropdownMenu");
+    if (dropdown && dropdown.classList.contains("active")) {
+        dropdown.classList.remove("active");
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('searchClearBtn');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.placeholder = 'Sayantika Patra (https://sayantikapatra.blogspot.com)';
+    }
+    if (clearBtn) {
+        clearBtn.style.display = 'block';
+        clearBtn.innerHTML = '<i class="fa-solid fa-rotate-right" title="Reload Web Page"></i>';
+        clearBtn.onclick = function() {
+            window.refreshSayantikaFrame();
+        };
+    }
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    renderSayantikaInAppPage();
+    return false;
+};
+
+window.openWebViewSection = window.openSayantikaSection;
+
+function renderSayantikaInAppPage() {
+    const container = document.getElementById('mainContainer');
+    if (!container) return;
+
+    // Direct in-app full screen edge-to-edge webview right inside the app
+    container.innerHTML = `
+        <div id="sayantikaInAppWrapper" style="position: fixed; top: 49px; left: 0; right: 0; bottom: 0; width: 100%; height: calc(100dvh - 49px); background: #0b0e14; z-index: 999; display: flex; flex-direction: column; overflow: hidden;">
+            <!-- Top Loading Progress Bar -->
+            <div id="sayantikaProgressBar" style="position: absolute; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(90deg, #10b981, #06b6d4, #3b82f6); z-index: 20; transition: opacity 0.3s ease;"></div>
+
+            <!-- Loader Spinner -->
+            <div id="sayantikaFrameLoader" style="position: absolute; inset: 0; background: #0b0e14; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 10; transition: opacity 0.3s ease;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 38px; color: #10b981;"></i>
+                <span style="color: #ffffff; font-size: 14px; font-weight: 700; letter-spacing: 0.5px;">Loading Sayantika Patra...</span>
+                <span style="color: #64748b; font-size: 11px; font-family: monospace;">https://sayantikapatra.blogspot.com</span>
+            </div>
+
+            <!-- In-App Direct WebView Frame -->
+            <iframe id="sayantikaIframe"
+                src="https://sayantikapatra.blogspot.com"
+                style="width: 100%; height: 100%; border: none; background: #ffffff; flex: 1;"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                allowfullscreen
+                onload="const l = document.getElementById('sayantikaFrameLoader'); const p = document.getElementById('sayantikaProgressBar'); if(l) { l.style.opacity='0'; setTimeout(() => { l.style.display='none'; }, 250); } if(p) { p.style.opacity='0'; }">
+            </iframe>
+        </div>
+    `;
+}
+
+window.refreshSayantikaFrame = function() {
+    const iframe = document.getElementById('sayantikaIframe');
+    const loader = document.getElementById('sayantikaFrameLoader');
+    const progressBar = document.getElementById('sayantikaProgressBar');
+    if (iframe) {
+        if (loader) {
+            loader.style.display = 'flex';
+            loader.style.opacity = '1';
+        }
+        if (progressBar) {
+            progressBar.style.opacity = '1';
+        }
+        iframe.src = "https://sayantikapatra.blogspot.com?_t=" + Date.now();
+        showToast("Reloading in-app webview...");
     }
 };
 

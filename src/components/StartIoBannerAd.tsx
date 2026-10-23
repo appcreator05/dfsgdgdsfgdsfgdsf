@@ -4,8 +4,9 @@ import { STARTIO_REAL_CAMPAIGNS } from '../data/movies';
 import { reportStartIoInteraction } from '../utils/startIoAndroidBridge';
 
 interface StartIoBannerAdProps {
-  position?: 'bottom' | 'top' | 'fullscreen-overlay';
+  position?: 'bottom' | 'top' | 'fullscreen-overlay' | 'inline';
   appId?: string;
+  initialAdIndex?: number;
   onAdClick?: () => void;
   onAdImpression?: () => void;
   customAdUrl?: string;
@@ -17,6 +18,7 @@ interface StartIoBannerAdProps {
 export const StartIoBannerAd: React.FC<StartIoBannerAdProps> = ({
   position = 'bottom',
   appId = '208187630',
+  initialAdIndex = 0,
   onAdClick,
   onAdImpression,
   customAdUrl,
@@ -25,7 +27,9 @@ export const StartIoBannerAd: React.FC<StartIoBannerAdProps> = ({
   showCloseButton = false
 }) => {
   const [isVisible, setIsVisible] = useState(true);
-  const [activeAdIndex, setActiveAdIndex] = useState(0);
+  const [activeAdIndex, setActiveAdIndex] = useState(() => {
+    return STARTIO_REAL_CAMPAIGNS.length > 0 ? initialAdIndex % STARTIO_REAL_CAMPAIGNS.length : 0;
+  });
   const onAdImpressionRef = React.useRef(onAdImpression);
 
   useEffect(() => {
@@ -60,15 +64,18 @@ export const StartIoBannerAd: React.FC<StartIoBannerAdProps> = ({
     setIsVisible(false);
   };
 
+  const isInline = position === 'inline';
   const isOverlay = position === 'fullscreen-overlay';
 
-  const containerClasses = isOverlay
+  const containerClasses = isInline
+    ? `relative w-[320px] h-[50px] min-w-[320px] max-w-[320px] max-h-[50px] bg-[#0c101a]/95 backdrop-blur-md border border-cyan-500/40 hover:border-cyan-400 rounded-xl shadow-lg flex items-center justify-between px-2 overflow-hidden pointer-events-auto select-none my-1 mx-auto transition-all ${className}`
+    : isOverlay
     ? `relative w-[320px] h-[50px] min-w-[320px] max-w-[320px] max-h-[50px] bg-[#0c101a]/95 backdrop-blur-md border border-cyan-500/50 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.85)] flex items-center justify-between px-2 overflow-hidden pointer-events-auto select-none ${className}`
     : `fixed ${position === 'bottom' ? 'bottom-0' : 'top-14'} left-1/2 -translate-x-1/2 z-[2147483647] w-[320px] h-[50px] min-w-[320px] max-w-[320px] max-h-[50px] bg-[#0c101a]/95 backdrop-blur-md border border-cyan-500/40 rounded-t-lg shadow-2xl flex items-center justify-between px-2 overflow-hidden pointer-events-auto ${className}`;
 
   return (
     <div
-      id={isOverlay ? 'startio-fullscreen-banner-container' : 'startio-banner-container'}
+      id={isInline ? `startio-inline-banner-${activeAdIndex}` : isOverlay ? 'startio-fullscreen-banner-container' : 'startio-banner-container'}
       className={containerClasses}
       style={style}
     >

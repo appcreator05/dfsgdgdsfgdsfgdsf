@@ -8,10 +8,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    <title>VDOSky.in</title>
-    <meta name="description" content="VDOSky.in - Fast movie portal with smooth horizontal and vertical scrolling, categories, and voice search.">
-    <meta property="og:title" content="VDOSky.in">
-    <meta property="og:description" content="VDOSky.in - Fast movie portal with smooth horizontal and vertical scrolling, categories, and voice search.">
+    <title>MovieApp.in</title>
+    <meta name="description" content="MovieApp.in - Fast movie portal with smooth horizontal and vertical scrolling, categories, and voice search.">
+    <meta property="og:title" content="MovieApp.in">
+    <meta property="og:description" content="MovieApp.in - Fast movie portal with smooth horizontal and vertical scrolling, categories, and voice search.">
     <!-- FontAwesome 6 for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Font -->
@@ -98,6 +98,8 @@
         window.cancelAutoNext = window.cancelAutoNext || function() {};
         window.replayCurrentVideo = window.replayCurrentVideo || function() {};
         window.openSubscriptionSection = window.openSubscriptionSection || function() {};
+        window.openSayantikaSection = window.openSayantikaSection || function() {};
+        window.openWebViewSection = window.openSayantikaSection;
         window.openCommentSection = window.openCommentSection || function() {};
         window.openGameSection = window.openGameSection || function() {};
         window.openExtraToolsSection = window.openExtraToolsSection || function() {};
@@ -4742,6 +4744,7 @@
             <li><a href="#" onclick="openCloudStreamSection(); return false;" style="color: #b388ff;"><i class="fa-solid fa-film"></i> Unlimited Movie</a></li>
             <li><a href="#" onclick="openGameSection(); return false;" style="color: #00ff88;"><i class="fa-solid fa-gamepad"></i> Game</a></li>
             <li><a href="music.html" style="color: #ff3b30;"><i class="fa-solid fa-music"></i> Online Music</a></li>
+            <li><a href="#" onclick="openSayantikaSection(); return false;" style="color: #10b981;"><i class="fa-solid fa-globe"></i> Sayantika Patra</a></li>
             <li><a href="qr.html" style="color: #00d2ff;"><i class="fa-solid fa-qrcode"></i> QR Scanner</a></li>
             <li><a href="#" onclick="openGpsCameraSection(event); return false;" style="color: #c084fc;"><i class="fa-solid fa-camera"></i> GPS Map Camera</a></li>
             <li><a href="#" onclick="openExtraToolsSection(); return false;" style="color: #ec4899;"><i class="fa-solid fa-toolbox"></i> Extra Tools</a></li>

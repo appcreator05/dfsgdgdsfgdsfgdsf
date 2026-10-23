@@ -47,9 +47,10 @@ export const VDOSKyLogo: React.FC<VDOSKyLogoProps> = ({
 
       {showText && (
         <div className="hidden xs:flex flex-col leading-none">
-          <span className="text-sm sm:text-base font-black tracking-tight text-white flex items-center gap-1 font-sans">
+          <span className="text-sm sm:text-base font-black tracking-tight text-white flex items-center font-sans">
             <span className="text-red-500">Movie</span>
             <span className="text-cyan-400">App</span>
+            <span className="text-red-400 text-xs ml-0.5">.in</span>
           </span>
           <span className="text-[8px] sm:text-[9px] font-bold text-gray-400 tracking-wider uppercase">
             HD MOVIES

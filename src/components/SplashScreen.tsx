@@ -81,7 +81,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
         {/* Subtle top vignette for status bar readability */}
         <div className="relative z-10 w-full pt-4 px-4 flex justify-between items-center bg-gradient-to-b from-black/60 via-black/20 to-transparent">
           <span className="text-[10px] uppercase font-bold tracking-widest text-red-400/90 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full border border-red-500/20">
-            VDOSKy Mobile
+            MovieApp.in Mobile
           </span>
           <span className="text-[10px] text-gray-300/80 bg-black/40 backdrop-blur-md px-2 py-0.5 rounded-full">
             Tap to skip

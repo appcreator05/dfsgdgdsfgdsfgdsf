@@ -9,6 +9,7 @@ import { SmartlinkInterstitialAd, SMARTLINK_DEFAULT_URL } from './components/Sma
 import { DrawerMenu } from './components/DrawerMenu';
 import { MusicSection } from './components/MusicSection';
 import { SubscriptionSection } from './components/SubscriptionSection';
+import { WebViewSection } from './components/WebViewSection';
 import { StartIoConfigModal } from './components/StartIoConfigModal';
 import { PageLoadingIndicator, TopProgressBar } from './components/PageLoadingIndicator';
 import { SplashScreen } from './components/SplashScreen';
@@ -145,6 +146,14 @@ export default function App() {
     isAdminViewRef.current = isAdminView;
   }, [isAdminView]);
 
+  // Dedicated WebView Section state (https://sayantikapatra.blogspot.com)
+  const [isWebView, setIsWebView] = useState(false);
+  const isWebViewRef = useRef(false);
+
+  useEffect(() => {
+    isWebViewRef.current = isWebView;
+  }, [isWebView]);
+
   // Dedicated VIP / Ad-Free Subscription Section state
   const [isSubscriptionView, setIsSubscriptionView] = useState(() => {
     try {
@@ -272,6 +281,13 @@ export default function App() {
           else if ((document as any).webkitExitFullscreen) (document as any).webkitExitFullscreen();
         }
       } catch {}
+      return true;
+    }
+
+    if (isWebViewRef.current) {
+      triggerPageTransition(() => {
+        setIsWebView(false);
+      }, 'Returning to Movies...');
       return true;
     }
 
@@ -485,7 +501,7 @@ export default function App() {
         setAppUpdateData(res.updateData);
         setShowUpdateModal(true);
       } else if (isManual) {
-        setUpdateToastMessage(`You are using the latest version of VDOSKy (v${CURRENT_APP_VERSION})`);
+        setUpdateToastMessage(`You are using the latest version of MovieApp.in (v${CURRENT_APP_VERSION})`);
         setTimeout(() => setUpdateToastMessage(null), 3500);
       }
     } catch (err) {
@@ -671,6 +687,21 @@ export default function App() {
     }, `Opening ${label}...`);
   };
 
+  // Open dedicated WebView Section (https://sayantikapatra.blogspot.com)
+  const handleOpenWebViewSection = () => {
+    setShowDrawerMenu(false);
+    if (typeof (window as any).openSayantikaSection === 'function') {
+      (window as any).openSayantikaSection();
+      return;
+    }
+    setSelectedMovie(null);
+    setActiveCategoryPage(null);
+    setIsMusicView(false);
+    setIsSubscriptionView(false);
+    setIsAdminView(false);
+    setIsWebView(true);
+  };
+
   // Group movies by category dynamically (strictly excluding any music sections)
   const categoryGroups = useMemo(() => {
     const map = new Map<string, { label: string; slug: string; movies: Movie[] }>();
@@ -767,7 +798,7 @@ export default function App() {
       {!showSplashScreen && (isInitialLoading || isPageTransitioning) && (
         <PageLoadingIndicator
           fullScreen
-          message={isInitialLoading ? 'Loading VDOSKy...' : transitionMessage}
+          message={isInitialLoading ? 'Loading MovieApp.in...' : transitionMessage}
           subMessage={isInitialLoading ? 'Connecting to movie library and optimizing stream feed' : 'Preparing movie stream'}
         />
       )}
@@ -775,18 +806,19 @@ export default function App() {
       {/* Android Exit Confirmation Toast */}
       {showExitToast && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#161d2b] border border-gray-700 text-white text-xs font-bold px-4 py-2 rounded-full shadow-2xl animate-fadeIn">
-          Press back again to exit VDOSKy
+          Press back again to exit MovieApp.in
         </div>
       )}
 
-      {/* Header with VDOSKy logo & voice search (Hidden when video is playing in fullscreen, in Music section, or in Subscription section) */}
-      {!isPlayerFullscreen && !isMusicView && !isSubscriptionView && (
+      {/* Header with MovieApp.in logo & voice search (Hidden when video is playing in fullscreen, in Music, Subscription, or WebView section) */}
+      {!isPlayerFullscreen && !isMusicView && !isSubscriptionView && !isWebView && (
         <Header
           onOpenMenu={() => setShowDrawerMenu(true)}
           onOpenSubscriptionSection={() => {
             setSelectedMovie(null);
             setActiveCategoryPage(null);
             setIsMusicView(false);
+            setIsWebView(false);
             setIsSubscriptionView(true);
           }}
           isSubscribed={isSubscribed}
@@ -794,8 +826,10 @@ export default function App() {
             setSelectedMovie(null);
             setActiveCategoryPage(null);
             setIsSubscriptionView(false);
+            setIsWebView(false);
             setIsMusicView(true);
           }}
+          onOpenWebViewSection={handleOpenWebViewSection}
           onOpenAdConfig={() => setShowAdConfigModal(true)}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -841,9 +875,11 @@ export default function App() {
           setActiveCategoryPage(null);
           setIsSubscriptionView(false);
           setIsAdminView(false);
+          setIsWebView(false);
           setIsMusicView(true);
           setShowDrawerMenu(false);
         }}
+        onOpenWebViewSection={handleOpenWebViewSection}
         onOpenAdminSection={() => {
           setSelectedMovie(null);
           setActiveCategoryPage(null);
@@ -901,6 +937,12 @@ export default function App() {
         <AdminSection
           onBack={() => setIsAdminView(false)}
           onSubscriptionStatusChange={(status) => setIsSubscribed(status)}
+        />
+      ) : isWebView ? (
+        <WebViewSection
+          onClose={() => setIsWebView(false)}
+          url="https://sayantikapatra.blogspot.com"
+          title="Sayantika Patra"
         />
       ) : isSubscriptionView ? (
         <SubscriptionSection
@@ -966,13 +1008,15 @@ export default function App() {
               </div>
             </div>
 
-            {/* In-feed Start.io Native Ad (300x250px) in Category View */}
-            {startIoConfig.enableNative && !isSubscribed && (
-              <div className="my-5 flex justify-center">
-                <StartIoNativeAd
-                  variant="mrec-300x250"
-                  adIndex={1}
+            {/* 320x50 Banner Ad in Category View */}
+            {!isSubscribed && (
+              <div className="my-3 flex justify-center w-full">
+                <StartIoBannerAd
+                  position="inline"
+                  initialAdIndex={1}
+                  appId={startIoConfig.appId || '208187630'}
                   onAdClick={recordAdClick}
+                  onAdImpression={recordBannerImpression}
                 />
               </div>
             )}
@@ -1050,13 +1094,15 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Start.io Native Ad (300x250px) in Search View */}
-              {startIoConfig.enableNative && !isSubscribed && (
-                <div className="my-5 flex justify-center">
-                  <StartIoNativeAd
-                    variant="mrec-300x250"
-                    adIndex={0}
+              {/* 320x50 Banner Ad in Search View */}
+              {!isSubscribed && (
+                <div className="my-3 flex justify-center w-full">
+                  <StartIoBannerAd
+                    position="inline"
+                    initialAdIndex={0}
+                    appId={startIoConfig.appId || '208187630'}
                     onAdClick={recordAdClick}
+                    onAdImpression={recordBannerImpression}
                   />
                 </div>
               )}
@@ -1240,13 +1286,15 @@ export default function App() {
                       </div>
                     </section>
 
-                    {/* Inject In-feed Start.io Ad (Alternating between 300x250 Native and 300x250 Banner) every 2nd category row */}
-                    {startIoConfig.enableNative && !isSubscribed && groupIndex % 2 === 1 && (
-                      <div className="my-6 flex justify-center">
-                        <StartIoNativeAd
-                          variant="mrec-300x250"
-                          adIndex={Math.floor(groupIndex / 2)}
+                    {/* 320x50 Banner Ad under every category section as requested */}
+                    {!isSubscribed && (
+                      <div className="my-3 sm:my-4 flex justify-center w-full">
+                        <StartIoBannerAd
+                          position="inline"
+                          initialAdIndex={groupIndex}
+                          appId={startIoConfig.appId || '208187630'}
                           onAdClick={recordAdClick}
+                          onAdImpression={recordBannerImpression}
                         />
                       </div>
                     )}
@@ -1261,13 +1309,14 @@ export default function App() {
       )}
 
       {/* Floating Quick Access VIP Button (always visible on bottom-right so user never misses it) */}
-      {!isPlayerFullscreen && !isSubscriptionView && (
+      {!isPlayerFullscreen && !isSubscriptionView && !isWebView && (
         <button
           id="btn-floating-vip"
           onClick={() => {
             setSelectedMovie(null);
             setActiveCategoryPage(null);
             setIsMusicView(false);
+            setIsWebView(false);
             setIsSubscriptionView(true);
           }}
           className={`fixed z-40 right-3.5 bottom-16 sm:bottom-16 flex items-center gap-1.5 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-full border shadow-2xl transition-all active:scale-95 cursor-pointer backdrop-blur-md ${
@@ -1284,8 +1333,8 @@ export default function App() {
         </button>
       )}
 
-      {/* Sticky Bottom 320x50 Banner Overlay Ad (Always visible as an overlay in app and during video playback unless VIP subscribed) */}
-      {!isSubscribed && !isSubscriptionView && (
+      {/* Sticky Bottom 320x50 Banner Overlay Ad (Always visible as an overlay in app and during video playback unless VIP subscribed or in WebView) */}
+      {!isSubscribed && !isSubscriptionView && !isWebView && (
         <StartIoBannerAd
           position="bottom"
           appId={startIoConfig.appId || '208187630'}

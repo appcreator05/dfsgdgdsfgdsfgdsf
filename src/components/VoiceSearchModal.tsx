@@ -139,7 +139,7 @@ export const VoiceSearchModal: React.FC<VoiceSearchModalProps> = ({
         {/* Brand Header */}
         <div className="flex items-center gap-2 mb-4">
           <VDOSKyLogo size={28} />
-          <span className="text-sm font-black text-white tracking-wide">VDOSKy Voice Search</span>
+          <span className="text-sm font-black text-white tracking-wide">MovieApp.in Voice Search</span>
         </div>
 
         {/* Language selector chips */}

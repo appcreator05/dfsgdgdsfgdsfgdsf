@@ -148,7 +148,7 @@ export const AutoUpdateModal: React.FC<AutoUpdateModalProps> = ({
 
         {isForceUpdate && (
           <p className="text-[10px] text-amber-400 text-center mt-3 font-medium">
-            ⚠️ This update is required to continue streaming on VDOSKy.
+            ⚠️ This update is required to continue streaming on MovieApp.in.
           </p>
         )}
       </div>
